@@ -18,7 +18,7 @@ export class AuthmailService {
   userToken: string;
 
   constructor( private http: HttpClient,
-              private firebase: AngularFireAuth) { 
+              private angFAuth: AngularFireAuth) { 
 
     this.leerToken();
 
@@ -27,17 +27,17 @@ export class AuthmailService {
 
   logout(){
     localStorage.removeItem('token');
-    return this.firebase.signOut();
+    return this.angFAuth.signOut();
   }; 
 
   login( usuario: UsuarioModel ){
 
-    return this.firebase.signInWithEmailAndPassword( usuario.email, usuario.pass );
+    return this.angFAuth.signInWithEmailAndPassword( usuario.email, usuario.pass );
 
   };
 
   nuevoUsuario( usuario: UsuarioModel ){
-    return this.firebase.createUserWithEmailAndPassword( usuario.email, usuario.pass);
+    return this.angFAuth.createUserWithEmailAndPassword( usuario.email, usuario.pass);
   };
 
   authFacebook(){
