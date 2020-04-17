@@ -1,0 +1,52 @@
+<div class="loginContainer animated fadeIn slow">
+    <form id="formLogin" 
+            [formGroup]="form"
+            (ngSubmit)="signIn()"
+            class="col s12 mb-2">
+        <div [ngClass]="{ 'error': emailNoValido, 'valido': !emailNoValido }"
+                class="input-field">
+          <input id="email" 
+                    formControlName="email"
+                    [class.is-invalid]="emailNoValido"
+                    [(ngModel)] ="usuario.email"
+                    type="email">
+          <label for="email"> Correo electronico</label>
+        </div>
+        <div [ngClass]="{ 'error': passNoValido, 'valido': !passNoValido }"
+                class="input-field">
+          <input id="pass" 
+                    formControlName="pass"
+                    [class.is-invalid]="passNoValido"
+                    [(ngModel)] ="usuario.pass"
+                    type="password">
+          <label for="pass">Contraseña</label>
+        </div>
+        <div [ngClass]="{ 'error': pass2NoValido, 'valido': !pass2NoValido }"
+                class="input-field">
+            <input id="pass2" 
+                    formControlName="pass2"
+                    [class.is-invalid]="pass2NoValido"
+                    type="password">
+            <label for="pass2">Repita Contraseña</label>
+          </div>
+
+      <button type="submit" class="waves-effect waves-light btn col s12  blue lighten-1">Aceptar</button>
+    </form>
+    
+    <div class="logSocialNetContainer">
+        <button class="waves-effect waves-light btn-socialNExt red darken-4">
+            <div>
+                <img src="../../../assets/icons/icons8-google-48.png">
+                <p>Registrate con Google</p>
+            </div>
+        </button>
+        <button class="waves-effect waves-light btn-socialNExt blue darken-3">
+            <div>
+                <img src="../../../assets/icons/icons8-facebook-48.png">
+                 <p>Registrate con Facebook</p> 
+            </div>
+            
+        </button>
+    </div>
+    
+</div>

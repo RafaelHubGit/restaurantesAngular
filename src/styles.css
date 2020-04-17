@@ -1,1 +1,80 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body{
+    height:100%;
+    margin: 0;
+  }
+
+
+  /* Logo */
+.logoContainer{
+
+  display: grid;
+  justify-items: center;
+
+}
+
+.iconsLogoContainer{
+  height: 44px !important;
+}
+
+.textLogo{
+  margin: 0;
+  color: #7d7d7d;
+  font-size: 15px !important;
+}
+
+.yellowIcon{
+  color: #EEEE03 !important;
+  font-size: 24px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.redIcon{
+  color: rgb(238, 3, 3) !important;
+  font-size: 24px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.blueIcon{
+  color: rgb(3, 105, 238) !important;
+  font-size: 24px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+/* Fin Logo */
+
+
+  
+/* Cambiar color Input materialize */
+/* label focus color */
+.error input + label, .materialize-textarea:focus:not([readonly]) + label {
+  color: #ed0000 !important;
+ }    
+.error input, .materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #ed0000 !important;
+  box-shadow: 0 1px 0 0 #ed0000 !important;
+ }
+
+.valido input + label, .materialize-textarea:focus:not([readonly]) + label {
+  color: #3286e6 !important;
+}    
+.valido input, .materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #3286e6 !important;
+  box-shadow: 0 1px 0 0 #3286e6 !important;
+}
+
+/*Fin  Cambiar color Input materialize */
+
+
+
+@media only screen and (max-width: 500px) {
+  .iconsLogoContainer{
+    height: 38px !important;
+  }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

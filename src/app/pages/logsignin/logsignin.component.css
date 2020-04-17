@@ -1,0 +1,73 @@
+.containerMain{
+
+    height:100%;
+    width: 100%;
+    margin: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.cardSilhouette{
+
+    width: 45%;
+    height: 80%;
+
+    border: #D3D3D2 solid 1px;
+    border-radius: 10px;
+
+    padding: 20px;
+
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+}
+
+.cardHeader a:hover{
+
+    cursor: pointer;
+
+}
+
+.cardBody{
+
+}
+
+
+
+@media only screen and (max-width: 1024px) {
+    .cardSilhouette{
+
+        width: 50%;
+        height: 70%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .cardSilhouette{
+
+        width: 90%;
+        height: 70%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .cardSilhouette{
+
+        width: 90%;
+        height: 85%;
+    }
+}
+
+@media only screen and (max-width: 300px) {
+    .cardSilhouette{
+
+        width: 90%;
+        height: 95%;
+    }
+}
+
+
+
+

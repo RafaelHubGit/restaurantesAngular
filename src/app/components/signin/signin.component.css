@@ -1,0 +1,66 @@
+
+.loginContainer{
+    margin-bottom: 0px !important;
+}
+
+form{
+    margin-bottom: 0px;
+}
+
+form button{
+    width: 100%;
+}
+
+
+/* Social Network */
+.logSocialNetContainer img{
+    width: 30px;
+}
+
+.logSocialNetContainer{
+
+    display: grid;
+    align-items: center;
+}
+
+.btn-socialNExt{
+
+    margin-top: 5px;
+    width: 100%;
+    padding: 5px;
+
+}
+.btn-socialNExt div{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+}
+
+.btn-socialNExt img{
+    display: inline-block;
+    margin-left: 25px;
+}
+
+.btn-socialNExt p{
+    display: inline-block;
+    margin: 0;
+    font-size: 20px;
+    
+    align-self: center;
+
+    color: #fff;
+}
+
+/* Fin Social Net */
+
+
+@media only screen and (max-width: 1024px) {
+    form{
+        margin-bottom: px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    form{
+        margin-bottom: 0px;
+    }
+}

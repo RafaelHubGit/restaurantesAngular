@@ -1,0 +1,56 @@
+<nav class="animated fadeIn slow">
+    <div class="nav-wrapper">
+      <a  class="brand-logo">
+        <!-- <i class="material-icons">storefront</i> -->
+      
+        <div class="logoContainer animated fadeIn slow">
+          <div class="iconsLogoContainer">
+              <i class="material-icons yellowIcon">change_history</i>
+              <i class="material-icons redIcon">radio_button_unchecked</i>
+              <i class="material-icons blueIcon">check_box_outline_blank</i>
+          </div>
+          <div class="textLogoContainer">
+              <h6 class="textLogo">Primario</h6>
+          </div>
+
+      </div>
+
+      </a>
+      <button (click)="abreMenu()" type="button" data-target="slide-out" class="sidenav-trigger btn-openMenu"><i class="material-icons">menu</i></button>
+      <ul class="right hide-on-med-and-down">
+        <li><a ><i class="material-icons">search</i></a></li>
+        <li><a ><i class="material-icons">view_module</i></a></li>
+        <li><a ><i class="material-icons">refresh</i></a></li>
+        <li><a class="dropdown-trigger" data-toggle="dropdown" data-target='dropdown1' ><i class="material-icons">more_vert</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!--Menu Slide -->
+  <ul id="slide-out" class="sidenav">
+    <li><div class="user-view">
+      <div class="background">
+        <img src="../../../assets/images/kitchen.jpg">
+      </div>
+      <a href="#user"><img class="circle" src="../../../assets/images/user.jpg"></a>
+      <a href="#name"><span class="white-text name">John Doe</span></a>
+      <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div></li>
+    <li><a ><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a >Second Link</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" >Third Link With Waves</a></li>
+    <li><a (click)="logout()"><i class="material-icons" style="color: rgb(207, 7, 7)">cancel</i>Salir</a></li>
+  </ul>
+  <!-- <a (click)="abreMenu()" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+  
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider" tabindex="-1"></li>
+    <li><a href="#!">three</a></li>
+    <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+    <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+  </ul>

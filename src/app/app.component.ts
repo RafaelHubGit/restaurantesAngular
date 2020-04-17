@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthmailService } from './services/authmail.service';
 
 @Component({
   selector: 'app-root',
