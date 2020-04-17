@@ -2,18 +2,23 @@
  import { map } from 'rxjs/operators';
  import { HttpClient } from '@angular/common/http';
  import { UsuarioModel } from '../models/usuario.model';
+ /* import { AuthService, FacebookLoginProvider, SocialUser } from 'angularx-social-login'; */
+
+ import Swal from 'sweetalert2';
+
+
+ import { AngularFireAuth } from '@angular/fire/auth';
+ import { auth } from 'firebase/app';
 
  @Injectable({
   providedIn: 'root'
  })
 export class AuthmailService {
 
-  private url = 'https://identitytoolkit.googleapis.com/v1/accounts:';
-  private apikey = 'AIzaSyAROgBxoKDB3bue_deiFUPqBRmq64ClBZM';
-
   userToken: string;
 
-  constructor( private http: HttpClient ) { 
+  constructor( private http: HttpClient,
+              private firebase: AngularFireAuth) { 
 
     this.leerToken();
 
@@ -22,54 +27,39 @@ export class AuthmailService {
 
   logout(){
     localStorage.removeItem('token');
+    return this.firebase.signOut();
   }; 
 
   login( usuario: UsuarioModel ){
 
-    const authData = {
-      email: usuario.email,
-      password: usuario.pass,
-      returnSecureToken: true
-    };
-
-    return this.http.post(
-      `${ this.url }signInWithPassword?key=${ this.apikey }`,
-      authData
-    ).pipe(
-      map( resp => {
-        this.guardarToken( resp['idToken'] );
-        return resp;
-      })
-    );
+    return this.firebase.signInWithEmailAndPassword( usuario.email, usuario.pass );
 
   };
 
   nuevoUsuario( usuario: UsuarioModel ){
+    return this.firebase.createUserWithEmailAndPassword( usuario.email, usuario.pass);
+  };
 
-    const authData = {
-      email: usuario.email,
-      password: usuario.pass,
-      returnSecureToken: true
-    };
+  authFacebook(){
 
-    return this.http.post(
-      `${ this.url }signUp?key=${ this.apikey }`,
-      authData
-    ).pipe(
-      map( resp => {
-        this.guardarToken( resp['idToken'] );
-        return resp;
-      })
-    );
+    console.log("Facebook");
 
   };
 
+  authGoogle(){
+
+  }
+
  
 
-  private guardarToken( idToken: string){
+  guardarToken( idToken: string){
 
     this.userToken = idToken;
     localStorage.setItem('token', idToken);
+
+    let hoy = new Date ();
+    hoy.setSeconds( 3600 );
+    localStorage.setItem('expira', hoy.getTime().toString() );
 
   }
 
@@ -87,7 +77,19 @@ export class AuthmailService {
 
   estaAutenticado(): boolean{
 
-    return this.userToken.length > 2;
+    if ( this.userToken.length === 0 ){
+      return false;
+    }
+
+    const expira = Number(localStorage.getItem('expira'));
+    const expiraDate = new Date();
+    expiraDate.setTime(expira);
+
+    if ( expiraDate > new Date() ){
+      return true;
+    }else{
+      return false;
+    }
 
   }
 

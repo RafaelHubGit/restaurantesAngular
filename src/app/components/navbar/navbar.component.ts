@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthmailService } from '../../services/authmail.service';
 import { Router } from '@angular/router';
 
-declare var $:any;
-declare var M:any;
+declare var $: any;
 
 @Component({
   selector: 'app-navbar',
@@ -12,9 +11,8 @@ declare var M:any;
 })
 export class NavbarComponent implements OnInit {
 
-  constructor( private auth: AuthmailService, 
-                private router: Router ) { 
-  }
+  constructor( private auth: AuthmailService,
+               private router: Router){}
 
   ngOnInit(): void {
   }
@@ -29,10 +27,11 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(){
+    this.auth.logout()
+              .then( resp => {
+              }, err => {
+              });
     this.router.navigateByUrl('/login');
-    this.auth.logout();
   }
-  
- 
 
 }

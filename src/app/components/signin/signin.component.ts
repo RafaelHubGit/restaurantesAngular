@@ -15,7 +15,7 @@ export class SigninComponent implements OnInit {
   form: FormGroup;
 
   constructor( private fb: FormBuilder,
-                private auth: AuthmailService) { 
+                private auth: AuthmailService){ 
 
     this.crearFormulario();
 
@@ -78,27 +78,28 @@ export class SigninComponent implements OnInit {
     });
     Swal.showLoading();
 
+
     this.auth.nuevoUsuario( this.usuario )
-            .subscribe( resp => {
-              Swal.close();
-              console.log(resp);
-            }, ( err ) => {
-              console.log(err);
+              .then( resp => {
+                Swal.close();
+                const token = resp.user.refreshToken;
+                this.auth.guardarToken( token );
+              }, err => {
+                console.log("Errores : ", err);
 
-              if( err.error.error.message === 'EMAIL_EXISTS' ){
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'El usuario ya se encuentra registrado',
-                });
-              }
-
-              if( err.error.error.message === 'WEAK_PASSWORD : Password should be at least 6 characters' ){
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'La contraseña debe contener al menos 6 caracteres.',
-                });
-              }
-            });
+                if ( err.code === 'auth/email-already-in-use' ){
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'El usuario ya se encuentra registrado',
+                  });
+                }
+                if ( err.code === 'auth/weak-password'){
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'La contraseña debe contener al menos 6 caracteres.',
+                  });
+                }
+              });
   }
 
 }

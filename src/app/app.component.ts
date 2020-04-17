@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthmailService } from './services/authmail.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,7 @@ import { AuthmailService } from './services/authmail.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'restaurante';
+
+  constructor() {
+  }
 }

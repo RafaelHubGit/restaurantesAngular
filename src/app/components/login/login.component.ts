@@ -72,14 +72,13 @@ export class LoginComponent implements OnInit {
     });
     Swal.showLoading();
 
-    this.auth.login( this.usuario )
-              .subscribe( resp => {
-
+    this.auth.login( this.usuario)
+              .then( resp => {
                 Swal.close();
+                const token = resp.user.refreshToken;
+                this.auth.guardarToken( token );
                 this.router.navigateByUrl('/home');
-
               }, (err) => {
-
                 Swal.fire({
                   icon: 'error',
                   title: 'Error al autenticar',
@@ -87,10 +86,13 @@ export class LoginComponent implements OnInit {
                 });
 
               });
-
   }
 
+  logInFacebook(){
 
+    this.auth.authFacebook();
+
+  }
 
 
 }
