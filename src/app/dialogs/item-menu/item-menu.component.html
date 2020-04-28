@@ -1,0 +1,82 @@
+
+<div class="containerDialog">
+
+    <div class="headerDialog">
+        <div class="tituloDialog">
+            {{ titulo }}
+        </div>
+
+        <div class="containerBtnClose">
+            <a (click)="cerrarDialog()" class="waves-effect red darken-3 btn-small">
+                <i class="material-icons">close</i>
+            </a>
+        </div>
+    </div>
+
+    <div class="bodyDialog">
+        
+        <form [formGroup]="forma" class="col s12">
+
+            <div class="row">
+              <div [ngClass]="{ 'error': nombreNoValido, 'valido': !nombreNoValido }" 
+                    class="input-field col s12">
+                <input id="nombre" 
+                        formControlName = "nombre"
+                        [class.is-invalid]= "nombreNoValido"
+                        type="text" 
+                        class="validate">
+                <label for="nombre">Nombre</label>
+                <span *ngIf="nombreNoValido" class="helper-text red-text red-darken-2" data-error="wrong" data-success="right">Debe agregar el nombre </span>
+              </div>
+            </div>
+
+            <div class="row">
+                <div [ngClass]="{ 'error': descripcionNoValido, 'valido': !descripcionNoValido }"
+                        class="input-field col s12">
+                  <textarea id="descripcion" 
+                            formControlName="descripcion"
+                            [class.is-invalid]= "descripcionNoValido"
+                            class="materialize-textarea validate"></textarea>
+                  <label for="descripcion">Descripción</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div [ngClass]="{ 'error': precioNoValido, 'valido': !precioNoValido }"
+                        class="input-field col s6">
+                  <input id="precio" 
+                            formControlName="precio"
+                            [class.is-invalid]= "precioNoValido"
+                            type="number" 
+                            class="validate">
+                  <label for="precio">Precio</label>
+                  <span *ngIf="precioNoValido" class="helper-text red-text red-darken-2" data-error="wrong" data-success="right">Debe agregar el precio </span>
+                </div>
+
+                <div class="input-field col s6">
+                    <select id="categorias" 
+                            multiple
+                            formControlName="categorias">
+                      <option value="" disabled selected>Elige tu opción: </option>
+                      <option *ngFor="let categoria of categoriasA; let i = index" 
+                                [ngValue]="categoria.id"> {{ categoria.id }} </option>
+                    </select>
+                    <label>Categorías</label>
+                  </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="footerDialog">
+
+        <div class="footerDialogBotonera">
+            <a (click)="guardar()" class="waves-effect blue lighten-1 btn-small"><i class="material-icons left">save</i> Guardar </a>
+            <a (click)="cerrarDialog()" class="waves-effect red darken-1 btn-small"><i class="material-icons left">close</i>Cancelar</a>
+        </div>
+
+    </div>
+
+
+</div>

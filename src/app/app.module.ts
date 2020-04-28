@@ -17,20 +17,18 @@ import { LogsigninComponent } from './pages/logsignin/logsignin.component';
 import { HomeComponent } from './pages/home/home.component';
 import { APP_ROUTING } from './app.routes';
 
-/* import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login'; */
-
-
 import {MatMenuModule} from '@angular/material/menu';
-
-/* const config = new AuthServiceConfig([
-  {
-    id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('1039370416448421')
-  }
-]);
-export function provideConfig() {
-  return config;
-} */
+import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FirsttimeComponent } from './dialogs/firsttime/firsttime.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { ItemMenuComponent } from './dialogs/item-menu/item-menu.component';
+import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
+import { TicketComponent } from './components/ticket/ticket.component';
+import { MeserosComponent } from './components/meseros/meseros.component';
+import { MeserosDialogComponent } from './dialogs/meseros-dialog/meseros-dialog.component';
+import { MesasDialogsComponent } from './dialogs/mesas-dialogs/mesas-dialogs.component';
+import { MesasComponent } from './components/mesas/mesas.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +37,16 @@ export function provideConfig() {
     LoginComponent,
     SigninComponent,
     LogsigninComponent,
-    HomeComponent
+    HomeComponent,
+    FirsttimeComponent,
+    MenuComponent,
+    ItemMenuComponent,
+    BienvenidaComponent,
+    TicketComponent,
+    MeserosComponent,
+    MeserosDialogComponent,
+    MesasDialogsComponent,
+    MesasComponent
   ],
   imports: [
     BrowserModule,
@@ -51,14 +58,11 @@ export function provideConfig() {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
-    /* SocialLoginModule, */
-    APP_ROUTING
+    APP_ROUTING,
+    MaterialModule,
+    BrowserAnimationsModule
   ],
   providers: [
-    /* {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
-    } */
   ],
   bootstrap: [AppComponent]
 })

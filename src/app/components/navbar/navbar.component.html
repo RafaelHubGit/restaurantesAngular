@@ -1,8 +1,7 @@
 <nav class="animated fadeIn slow">
     <div class="nav-wrapper">
       <a  class="brand-logo">
-        <!-- <i class="material-icons">storefront</i> -->
-      
+        <i class="material-icons">storefront</i>
         <div class="logoContainer animated fadeIn slow">
           <div class="iconsLogoContainer">
               <i class="material-icons yellowIcon">change_history</i>
@@ -33,15 +32,19 @@
         <img src="../../../assets/images/kitchen.jpg">
       </div>
       <a href="#user"><img class="circle" src="../../../assets/images/user.jpg"></a>
-      <a href="#name"><span class="white-text name">John Doe</span></a>
-      <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+      <a href="#name"><span class="white-text name"> {{ usuarioSesion.nombre }}</span></a>
+      <a href="#email"><span class="white-text email"> {{ usuarioSesion.email }} </span></a>
     </div></li>
-    <li><a ><i class="material-icons">cloud</i>First Link With Icon</a></li>
-    <li><a >Second Link</a></li>
+    <li><a class="subheader">Operaciones</a></li>
+    <li><a class="waves-effect" routerLinkActive routerLink="ticket"> <i class="material-icons">menu_book</i> Oden </a></li>
     <li><div class="divider"></div></li>
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" >Third Link With Waves</a></li>
-    <li><a (click)="logout()"><i class="material-icons" style="color: rgb(207, 7, 7)">cancel</i>Salir</a></li>
+    <li><a class="subheader">Catalogos</a></li>
+    <li><a class="waves-effect" routerLinkActive routerLink="menu"> <i class="material-icons">menu_book</i> Menú </a></li>
+    <li><a class="waves-effect" routerLinkActive routerLink="meseros"> <i class="material-icons">menu_book</i> Meseros </a></li>
+    <li><a class="waves-effect" routerLinkActive routerLink="mesas"> <i class="material-icons">menu_book</i> Mesas </a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Salir</a></li>
+    <li class="sidenav-footer"><a (click)="logout()"><i class="material-icons" style="color: rgb(93, 93, 93)">directions_run</i>Salir</a></li>
   </ul>
   <!-- <a (click)="abreMenu()" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
   

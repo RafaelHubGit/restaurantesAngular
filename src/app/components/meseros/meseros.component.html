@@ -1,0 +1,67 @@
+
+<div class="mainContainer animated fadeIn faster">
+
+    <div class="title">
+      Menú
+    </div>  
+    <hr>
+  
+    <div *ngIf=" meserosArr.length !== 0 ">
+  
+      <div class="searchContainer animated fadeIn faster">
+  
+        <div class="searchItemsContainer">
+          <div class="searchItemInput">
+            <input (keyup)="onKeyUp($event)" type="text" value="" placeholder="Buscar...">
+          </div>
+          <div class="searchItemButton">
+            <button *ngIf="!textSearch" class="animated fadeIn faster"> <i class="material-icons">search</i> </button>
+            <button *ngIf="textSearch" (click)=" limpiaText() " class="animated fadeIn faster"> <i class="material-icons">close</i> </button>
+          </div>    
+        </div>
+        <div class="searchTextContainer">
+          <div *ngIf="textSearch" class="searchText animated fadeIn faster">
+            Buscando: <b>" {{ textSearch }} "</b>
+          </div>
+        </div>
+    
+      </div>
+    
+    
+      <table  id="tableMain" class=" highlight responsive-table centered animated fadeIn faster">
+        <thead>
+          <tr>
+              <th>Nombre</th>
+          </tr>
+        </thead>
+    
+        <tbody>
+          <tr *ngFor="let mesero of meserosArr; let i = index;" 
+              class="animated fadeInRight faster"
+              (dblclick)="queHacer( mesero, 'edit', i )">
+            <td> {{mesero.nombre }} </td>
+          </tr>
+        </tbody>
+      </table>
+  
+    </div>
+  
+    <div *ngIf=" meserosArr.length === 0 " class="noInfo animated fadeIn faster">
+  
+      No hay información para mostrar
+      <br><br>
+      <i class="material-icons" style="font-size: 80px;">sentiment_very_dissatisfied</i>
+  
+    </div>
+    
+  
+    
+    <div class="fixed-action-btn animated fadeIn faster">
+      <a (click)="addItem('add')" class="btn-floating btn-large red">
+        <i class="large material-icons">add</i>
+      </a>
+    </div>
+  
+  </div>
+  
+  

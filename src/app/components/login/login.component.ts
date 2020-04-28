@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
 
+//Models
 import { UsuarioModel } from '../../models/usuario.model';
+import { usuarioSesion } from '../../classes/usuarioSesion.class';
+ 
+//Servicio
 import { AuthmailService } from '../../services/authmail.service';
 
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -14,13 +19,16 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  
   usuario: UsuarioModel;
+
   form: FormGroup;
 
   constructor( private fb: FormBuilder,
-                private auth: AuthmailService,
-                private router: Router) { 
+               private auth: AuthmailService,
+               private router: Router) { 
 
+    this.auth.logout();
     this.crearFormulario();
 
   }
@@ -73,11 +81,43 @@ export class LoginComponent implements OnInit {
     Swal.showLoading();
 
     this.auth.login( this.usuario)
-              .then( resp => {
+              .then( ( respUser ) => {
+
                 Swal.close();
-                const token = resp.user.refreshToken;
+                const token = respUser.user.refreshToken;
                 this.auth.guardarToken( token );
-                this.router.navigateByUrl('/home');
+
+                const usuario = new usuarioSesion();
+
+                this.auth.getUsuario( respUser.user.email )
+                  .subscribe( (resp) => {
+
+                    /* console.log("largo : ", resp.empty); */
+                    if( !resp.empty ){
+
+                      resp.forEach( doc => {
+
+                        usuario.email = doc.data().email;
+                        usuario.nombre = doc.data().nombre;
+                        usuario.usuario = doc.data().usuario;
+                        usuario.fechaRegistro = doc.data().fechaRegistro;
+                        usuario.telefono = doc.data().telefono;
+                        usuario.primeraVez = doc.data().primeraVez;
+                        usuario.idRestaurante = doc.data().idRestaurante;
+                      });
+
+                    }else{
+                      usuario.email = respUser.user.email;
+                      usuario.nombre = respUser.user.email;
+                      usuario.usuario = respUser.user.email;
+                      usuario.fechaRegistro = new Date();
+                    }
+
+                    this.auth.guardarUsuarioStorage( usuario );
+                    this.router.navigateByUrl('/home');
+                      
+                  });
+
               }, (err) => {
                 Swal.fire({
                   icon: 'error',
@@ -87,6 +127,7 @@ export class LoginComponent implements OnInit {
 
               });
   }
+  
 
   logInFacebook(){
 

@@ -1,0 +1,46 @@
+
+<div class="containerDialog">
+
+    <div class="headerDialog">
+        <div class="tituloDialog">
+            {{ titulo }}
+        </div>
+
+        <div class="containerBtnClose">
+            <a (click)="cerrarDialog()" class="waves-effect red darken-3 btn-small">
+                <i class="material-icons">close</i>
+            </a>
+        </div>
+    </div>
+
+    <div class="bodyDialog">
+        
+        <form [formGroup]="forma" class="col s12">
+
+            <div class="row">
+              <div [ngClass]="{ 'error': mesaNoValido, 'valido': !mesaNoValido }" 
+                    class="input-field col s12">
+                <input id="mesa" 
+                        formControlName = "mesa"
+                        [class.is-invalid]= "mesaNoValido"
+                        type="text" 
+                        class="validate">
+                <label for="mesa">Mesa</label>
+                <span *ngIf="mesaNoValido" class="helper-text red-text red-darken-2" data-error="wrong" data-success="right">Debe agregar la mesa </span>
+              </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="footerDialog">
+
+        <div class="footerDialogBotonera">
+            <a (click)="guardar()" class="waves-effect blue lighten-1 btn-small"><i class="material-icons left">save</i> Guardar </a>
+            <a (click)="cerrarDialog()" class="waves-effect red darken-1 btn-small"><i class="material-icons left">close</i>Cancelar</a>
+        </div>
+
+    </div>
+
+
+</div>

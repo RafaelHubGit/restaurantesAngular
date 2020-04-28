@@ -5,6 +5,153 @@ html, body{
     margin: 0;
   }
 
+.mainContainer{
+
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  position: relative;
+}
+
+.title{
+  font-size: 35px;
+  color: #656464;
+  padding-left: 20px;
+}
+
+.noInfo{
+
+  display: grid;
+  align-items: center;
+  justify-items: center;
+
+  font-size: 30px;
+  color: #696767;
+
+  padding-top: 200px;
+
+  height: 100%;
+  width: 100%;
+
+}
+
+table tr th{
+  color: #4a4a4a;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+table tr td{
+  color: #4a4a4a;
+  font-size: 18px;
+}
+
+
+
+
+/* BUSCADOR */
+
+.searchContainer{
+
+  display: grid;
+  grid-template-rows: 80% 20%;
+
+  margin-bottom: 15px;
+  margin-top: 15px;
+
+  width: 100%;
+  height: 70px;
+
+}
+
+.searchItemsContainer{
+
+  display: grid;
+  grid-template-columns: 90% 10%;
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+
+  border: solid 1px #ccc;
+  border-radius: 34px;
+}
+
+.searchItemInput{
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  display: grid;
+  justify-items: center;
+  align-items: center;
+
+}
+
+.searchItemInput input{
+
+  height: 90%;
+  width: 95% !important;
+  border: none !important;
+  position: absolute;
+  top: 4px;
+
+  font-size: 25px;
+  color: #696767;
+
+}
+
+.searchItemInput input:focus{
+
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+
+}
+
+.searchItemButton{
+
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+}
+
+.searchItemButton button{
+
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: transparent;
+  border: 0;
+
+}
+
+.searchItemButton button i{
+
+  font-size: 40px;
+  color: #696767;
+
+  position: absolute;
+  top: 8px;
+  right: 10%;
+
+}
+
+.searchTextContainer{
+
+  width: 100%;
+  position: relative;
+  color: #696767;
+
+}
+
+.searchText{
+  position: absolute;
+  left: 46px;
+}
+
+/* FIN BUSCADOR*/
+
+
 
   /* Logo */
 .logoContainer{
@@ -70,6 +217,60 @@ html, body{
 /*Fin  Cambiar color Input materialize */
 
 
+/* MODALES Dialogs*/
+.containerDialog{
+
+  display: grid;
+  grid-template-rows: 40px 8fr 30px;
+
+}
+
+.headerDialog{
+
+  display: grid;
+  grid-template-columns: 11fr 1fr;
+
+  padding-bottom: 10px;
+
+  border-bottom: solid rgb(129, 129, 129) 1px;
+
+}
+
+.tituloDialog{
+  font-size: 30px;
+  color: rgb(103, 101, 101);
+}
+
+.containerBtnClose{
+  position: relative;
+}
+
+.containerBtnClose a{
+  position: absolute;
+  top: -25px;
+  right: -24px;
+}
+
+.bodyDialog{
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  overflow-y: scroll;
+}
+
+.footerDialog{
+  display: grid;
+  justify-items: end;
+}
+
+.footerDialogBotonera a{
+
+  margin-left: 2px;
+
+}
+
+/* FIN MODALES Dialogs*/
+
 
 @media only screen and (max-width: 500px) {
   .iconsLogoContainer{
@@ -78,3 +279,7 @@ html, body{
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+

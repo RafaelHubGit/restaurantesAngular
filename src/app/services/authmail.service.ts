@@ -1,24 +1,29 @@
  import { Injectable } from '@angular/core';
- import { map } from 'rxjs/operators';
- import { HttpClient } from '@angular/common/http';
- import { UsuarioModel } from '../models/usuario.model';
- /* import { AuthService, FacebookLoginProvider, SocialUser } from 'angularx-social-login'; */
-
- import Swal from 'sweetalert2';
-
 
  import { AngularFireAuth } from '@angular/fire/auth';
- import { auth } from 'firebase/app';
+ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+ import * as firebase from 'firebase';
+ 
+ //Models
+ import { usuarioSesion } from '../classes/usuarioSesion.class';
+ import { Restaurante } from '../classes/restaurante.class';
+ import { UsuarioModel } from '../models/usuario.model';
+ 
+ import Swal from 'sweetalert2';
 
  @Injectable({
   providedIn: 'root'
  })
 export class AuthmailService {
 
+  idRestautante: string;
   userToken: string;
+  usuarioSesion: usuarioSesion;
+  linkPrimario = 'http://primario.com.mx';
 
-  constructor( private http: HttpClient,
-              private angFAuth: AngularFireAuth) { 
+
+  constructor(private angFAuth: AngularFireAuth,
+              private firestore: AngularFirestore) { 
 
     this.leerToken();
 
@@ -27,6 +32,7 @@ export class AuthmailService {
 
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
     return this.angFAuth.signOut();
   }; 
 
@@ -44,13 +50,27 @@ export class AuthmailService {
 
     console.log("Facebook");
 
-  };
+  }
 
   authGoogle(){
 
   }
 
- 
+  guardarUsuarioStorage( usuario: usuarioSesion){
+    
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+
+  }
+
+  leerUsuarioSesionStorage(){
+
+    if ( localStorage.getItem('usuario') ){
+      this.usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
+    }
+
+    return this.usuarioSesion;
+
+  }
 
   guardarToken( idToken: string){
 
@@ -92,5 +112,69 @@ export class AuthmailService {
     }
 
   }
+
+
+  //Se crea el restaurante y se agregan los datos del mismo por primera vez
+  creaRestaurante( restaurante: Restaurante, usuario: usuarioSesion ){
+
+    const rest = {
+      ...restaurante
+    };
+
+    const usuarioV = {
+      ...usuario
+    };
+
+    this.firestore.collection('restaurantes').add( rest )
+          .then( resp => {
+            this.idRestautante = resp.id;
+
+            this.crearUsuario( usuarioV, resp.id );
+          }).catch( err => {
+            
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Res-01',
+              text: `Error al realizar la operación favor de intenrarlo nuevaente!
+                     Si el error persiste favor de contactar al equipo de Primario`,
+              footer: `<a href="${ this.linkPrimario }"> Equipo Primario : ${this.linkPrimario} </a>`
+            });
+
+          });
+  }
+
+  crearUsuario( usuario: usuarioSesion, idRestaurante ){
+
+    const usuarioC = {
+      ...usuario,
+      'idRestaurante': idRestaurante,
+      'fechaRegistro': new Date(),
+      'email': this.usuarioSesion.email,
+      'usuario': this.usuarioSesion.usuario,
+      'primeraVez': false
+    };
+
+    this.usuarioSesion = usuarioC;
+
+    this.guardarUsuarioStorage( usuarioC );
+
+    this.firestore.collection('usuarios').doc(`${ usuarioC.email }`)
+                  .set( usuarioC )
+                  .catch( err => {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Error Us-01 ',
+                      text: `Error al realizar la operación favor de intenrarlo nuevaente! 
+                              <br> Si el error persiste favor de contactar al equipo de Primario`,
+                      footer: `<a href="${ this.linkPrimario }"> Equipo Primario : ${this.linkPrimario} </a>`
+                    });
+                  });
+  }
+
+
+  getUsuario( usuario: string){
+    const query = this.firestore.collection('usuarios').ref.where('usuario', '==', `${ usuario }`);
+    return this.firestore.collection('usuarios', ref => query).get();
+  };
 
 }

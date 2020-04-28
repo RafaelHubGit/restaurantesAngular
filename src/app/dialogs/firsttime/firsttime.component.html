@@ -1,0 +1,71 @@
+
+<mat-tab-group dynamicHeight>
+    <mat-tab label="Datos del Restaurante">
+        <div class="formulario">
+        
+            <form id="formLogin" [formGroup]="formRest"
+                class="col s12 mb-2">
+                <div [ngClass]="{ 'error': nomRestNoValido, 'valido': !nomRestNoValido }"
+                    class="input-field">
+                    <input id="nombreRest" 
+                            formControlName="nombreRest"
+                            [class.is-invalid]="nomRestNoValido"
+                            [(ngModel)] ="restaurante.nombre"
+                            type="text">
+                    <label for="nombreRest"> Nombre Restaurante</label>
+                </div>
+
+                <div class="input-field">
+                    <input id="telefonoRest" 
+                            formControlName="telefonoRest"
+                            [(ngModel)] ="restaurante.telefono"
+                            type="number">
+                    <label for="telefonoRest">Telefono</label>
+                </div>
+
+                <div class="input-field">
+                    <input id="direccionRest" 
+                            formControlName="direccionRest"
+                            [(ngModel)] ="restaurante.direccion"
+                            type="text">
+                    <label for="direccionRest"> Dirección</label>
+                </div>
+
+            </form>
+
+        </div>
+    </mat-tab>
+    <mat-tab label="Datos de Usuario">
+        <div class="formulario">
+        
+            <form id="formLogin" [formGroup]="formUser"
+            class="col s12 mb-2">
+                <div [ngClass]="{ 'error': nombreUserNoValido, 'valido': !nombreUserNoValido }"
+                    class="input-field">
+                    <input id="nombreUser" 
+                            formControlName="nombreUser"
+                            [class.is-invalid]="nombreUserNoValido"
+                            [(ngModel)] ="usuario.nombre"
+                            type="text">
+                    <label for="nombreUser"> Nombre </label>
+                </div>
+
+                <div class="input-field">
+                    <input id="telefonoUser" 
+                            formControlName="telefonoUser"
+                            [(ngModel)] ="usuario.telefono"
+                            type="text">
+                    <label for="telefonoUser">Telefono de Contacto</label>
+                </div>
+            </form>
+
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<div class="row">
+    <a (click)="guardarRestUsuario()" class="waves-effect blue lighten-1 btn col s12">Guardar</a>
+</div>
+
+
+
