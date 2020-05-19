@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { ItemMeseroModel } from '../models/itemMesero.model';
 
+import { HerramientasService } from './herramientas.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +12,8 @@ export class MeserosService {
 
   idRestaurante: string;
 
-  constructor( private firestore: AngularFirestore ) { 
+  constructor( private firestore: AngularFirestore,
+               private tls: HerramientasService ) { 
 
     this.idRestaurante = this.getIdRestaurante();
 
@@ -19,11 +22,10 @@ export class MeserosService {
 
   getMeseros(){
 
-    const query = this.firestore.collection('restaurantes')
-                                .doc(`${this.idRestaurante}`)
-                                .collection('meseros')
-                                .ref
-                                .orderBy('nombre');
+    const query = this.tls.restFire
+                      .collection('meseros')
+                      .ref
+                      .orderBy('nombre');
     return this.firestore.collection('restaurantes', ref => query).get();
 
   }
@@ -32,30 +34,28 @@ export class MeserosService {
 
     const MESERO = {
       ...mesero,
-      'idRestaurante' : this.idRestaurante
-    }
-    return this.firestore.collection('restaurantes')
-                  .doc(`${this.idRestaurante}`)
-                  .collection('meseros')
-                  .add( MESERO );
+      idRestaurante : this.idRestaurante
+    };
+
+    return this.tls.restFire
+                .collection('meseros')
+                .add( MESERO );
   }
 
   updateMesero( mesero: ItemMeseroModel ){
 
-    return this.firestore.collection('restaurantes')
-                          .doc(`${this.idRestaurante}`)
-                          .collection('meseros')
-                          .doc( mesero.id )
-                          .update( mesero );
+    return this.tls.restFire
+                .collection('meseros')
+                .doc( mesero.id )
+                .update( mesero );
   }
 
   deleteMesero( mesero: ItemMeseroModel ){
 
-    return this.firestore.collection('restaurantes')
-                          .doc(`${this.idRestaurante}`)
-                          .collection('meseros')
-                          .doc( mesero.id )
-                          .delete();
+    return this.tls.restFire
+                .collection('meseros')
+                .doc( mesero.id )
+                .delete();
   }
 
 

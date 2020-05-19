@@ -36,12 +36,22 @@
       <a href="#email"><span class="white-text email"> {{ usuarioSesion.email }} </span></a>
     </div></li>
     <li><a class="subheader">Operaciones</a></li>
-    <li><a class="waves-effect" routerLinkActive routerLink="ticket"> <i class="material-icons">menu_book</i> Oden </a></li>
+    <li *ngFor="let operacion of menuOperArr">
+      <a class="waves-effect" 
+          routerLinkActive routerLink="{{ operacion.redirectTo }}"
+          (click)="closeMenu()">
+        {{ operacion.nombre }} 
+      </a>
+    </li>
     <li><div class="divider"></div></li>
     <li><a class="subheader">Catalogos</a></li>
-    <li><a class="waves-effect" routerLinkActive routerLink="menu"> <i class="material-icons">menu_book</i> Menú </a></li>
-    <li><a class="waves-effect" routerLinkActive routerLink="meseros"> <i class="material-icons">menu_book</i> Meseros </a></li>
-    <li><a class="waves-effect" routerLinkActive routerLink="mesas"> <i class="material-icons">menu_book</i> Mesas </a></li>
+    <li *ngFor="let menu of menuCatArr">
+      <a class="waves-effect" 
+          routerLinkActive routerLink="{{ menu.redirectTo }}"
+          (click)="closeMenu()"> 
+        {{ menu.nombre }}
+      </a>
+    </li>
     <li><div class="divider"></div></li>
     <li><a class="subheader">Salir</a></li>
     <li class="sidenav-footer"><a (click)="logout()"><i class="material-icons" style="color: rgb(93, 93, 93)">directions_run</i>Salir</a></li>

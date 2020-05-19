@@ -42,6 +42,44 @@
             </div>
 
             <div class="row">
+
+                <div *ngIf=" categoriasArr.length !== 0 "
+                        class="input-field col s6">
+                    <div *ngIf=" categoriasArr.length !== 0 "
+                                class="input-field col s12">
+                            <div 
+                                    class="input-field col s12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Categorías</mat-label>
+                                    <mat-select formControlName = "categorias" multiple>
+                                        <mat-option *ngFor="let categoria of categoriasArr" 
+                                                    [value]="categoria.id">{{ categoria.categoria }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                    </div>
+                </div>
+
+                <div *ngIf=" areasArr.length !== 0 "
+                        class="input-field col s6">
+                    <div *ngIf=" areasArr.length !== 0 "
+                                class="input-field col s12">
+                            <div 
+                                    class="input-field col s12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Áreas</mat-label>
+                                    <mat-select formControlName = "areas" multiple>
+                                        <mat-option *ngFor="let area of areasArr" 
+                                                    [value]="area.id">{{ area.nombre }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
                 <div [ngClass]="{ 'error': precioNoValido, 'valido': !precioNoValido }"
                         class="input-field col s6">
                   <input id="precio" 
@@ -52,17 +90,6 @@
                   <label for="precio">Precio</label>
                   <span *ngIf="precioNoValido" class="helper-text red-text red-darken-2" data-error="wrong" data-success="right">Debe agregar el precio </span>
                 </div>
-
-                <div class="input-field col s6">
-                    <select id="categorias" 
-                            multiple
-                            formControlName="categorias">
-                      <option value="" disabled selected>Elige tu opción: </option>
-                      <option *ngFor="let categoria of categoriasA; let i = index" 
-                                [ngValue]="categoria.id"> {{ categoria.id }} </option>
-                    </select>
-                    <label>Categorías</label>
-                  </div>
             </div>
 
         </form>

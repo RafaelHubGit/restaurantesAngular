@@ -1,0 +1,60 @@
+
+<div class="mainContainer animated fadeIn faster">
+
+    <div class="headContainer">
+        <div class="headtitle">
+            área
+        </div>
+
+        <div class="headMiddle">
+
+            <mat-form-field *ngIf=" opciones !== 0">
+                <mat-label> Secciones: </mat-label>
+                <mat-select multiple
+                            [formControl]="opcionesFormControl" 
+                            (selectionChange)="changeOption( $event.value )">
+                    <mat-option *ngFor="let opcion of opciones"
+                                [value]='opcion.value'>
+                        {{ opcion.option }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <div class="headFinal">
+
+        </div>
+    </div>  
+    <hr>
+
+    <div id="middleContainer" class="middleContainer">
+
+        <div id="entraSale" *ngIf=" entraSaleArr.length !== 0">
+
+            <app-table-ticket-area titulo='Entrada / salida'
+                                    [dataTable]='entraSaleArr'></app-table-ticket-area>
+
+        </div>
+        <div id="tiempo1" *ngIf=" tiempo1Arr.length !== 0"> 
+         
+            <app-table-ticket-area titulo=' Tiempo 1'
+                                    [dataTable]='tiempo1Arr'></app-table-ticket-area>
+            
+        </div>
+        <div id="tiempo2" *ngIf=" tiempo2Arr.length !== 0"> 
+        
+            <app-table-ticket-area titulo=' Tiempo 2'
+                                    [dataTable]='tiempo2Arr'></app-table-ticket-area>
+        
+        </div>
+        <div id="postre" *ngIf=" postreArr.length !== 0">
+
+            <app-table-ticket-area titulo=' Postre '
+                                    [dataTable]='postreArr'></app-table-ticket-area>
+
+        </div>
+
+    </div>
+
+</div>

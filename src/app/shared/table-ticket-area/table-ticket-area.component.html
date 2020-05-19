@@ -1,0 +1,32 @@
+
+
+<div class="container">
+
+    <div class="title">
+        {{ titulo }}
+        <hr>
+    </div>
+
+    <div class="tableContainer">
+
+        <table class="responsive-table highlight centered">
+            <thead>
+              <tr>
+                  <th>Nombre</th>
+                  <th>Cantidad</th>
+                  <th>Nota</th>
+              </tr>
+            </thead>
+    
+            <tbody>
+              <tr *ngFor="let data of dataTable">
+                <td> {{ data.nombre }} </td>
+                <td> {{ data.cantidad }} </td>
+                <td> {{ data.nota }} </td>
+              </tr>
+            </tbody>
+          </table>
+
+    </div>
+    
+</div>

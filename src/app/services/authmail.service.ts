@@ -10,6 +10,7 @@
  import { UsuarioModel } from '../models/usuario.model';
  
  import Swal from 'sweetalert2';
+import { HerramientasService } from './herramientas.service';
 
  @Injectable({
   providedIn: 'root'
@@ -28,7 +29,6 @@ export class AuthmailService {
     this.leerToken();
 
   }
-
 
   logout(){
     localStorage.removeItem('token');
@@ -147,11 +147,11 @@ export class AuthmailService {
 
     const usuarioC = {
       ...usuario,
-      'idRestaurante': idRestaurante,
-      'fechaRegistro': new Date(),
-      'email': this.usuarioSesion.email,
-      'usuario': this.usuarioSesion.usuario,
-      'primeraVez': false
+      idRestaurante: idRestaurante,
+      fechaRegistro: new Date(),
+      email: this.usuarioSesion.email,
+      usuario: this.usuarioSesion.usuario,
+      primeraVez: false
     };
 
     this.usuarioSesion = usuarioC;
@@ -175,6 +175,6 @@ export class AuthmailService {
   getUsuario( usuario: string){
     const query = this.firestore.collection('usuarios').ref.where('usuario', '==', `${ usuario }`);
     return this.firestore.collection('usuarios', ref => query).get();
-  };
+  }
 
 }

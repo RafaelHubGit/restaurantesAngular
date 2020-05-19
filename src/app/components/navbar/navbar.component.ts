@@ -14,6 +14,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FirsttimeComponent } from '../../dialogs/firsttime/firsttime.component';
 import { Restaurante } from '../../classes/restaurante.class';
 
+//Models
+import { MenuModel } from '../../models/menu.model';
+import { NavBarService } from '../../services/nav-bar.service';
+
 declare var $: any;
 
 @Component({
@@ -23,11 +27,16 @@ declare var $: any;
 })
 export class NavbarComponent implements OnInit {
 
+  menuArr: MenuModel[] = [];
+  menuCatArr: MenuModel[] = [];
+  menuOperArr: MenuModel[] = [];
+
   usuarioSesion: usuarioSesion;
   restaurante: Restaurante;
 
   constructor( private auth: AuthmailService,
-               private router: Router, 
+               private nbS: NavBarService,
+               private router: Router,
                private dialog: MatDialog){
 
     this.usuarioSesion = this.auth.leerUsuarioSesionStorage();
@@ -39,6 +48,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.getMenu();
+    this.getMenuFromArea();
+
   }
 
 
@@ -78,6 +91,7 @@ export class NavbarComponent implements OnInit {
       disableClose: true
     });
 
+
     /* dialogRef.afterClosed().subscribe(result => {
       
       if( !result ){
@@ -92,6 +106,68 @@ export class NavbarComponent implements OnInit {
       this.snackBar.open('Marcador Actualizado', 'Cerrar', {duration: 3000});
 
     }); */
+
+  }
+
+  getMenu(){
+
+    this.nbS.getMenu().subscribe( resp => {
+
+      let menuTemp: MenuModel[] = [];
+
+      resp.forEach( doc => {
+
+        const item: any = {
+          id: doc.id,
+          ...doc.data()
+        };
+
+        menuTemp.push( item );
+
+      });
+
+      this.menuArr = menuTemp;
+
+      this.menuArr.filter(x => x.tipo === 'catalogo')
+                  .map(x => {
+                        this.menuCatArr.unshift( x );
+                      });
+
+      this.menuArr.filter(x => x.tipo === 'operacion')
+                  .map(x => {
+                        this.menuOperArr.unshift( x );
+                      });
+
+    });
+
+  }
+
+  getMenuFromArea(){
+
+    this.nbS.getMenuFromArea()
+              .subscribe( resp => {
+
+                let menu: any;
+
+                resp.forEach( doc => {
+                  menu = doc.payload.doc.data();
+
+                  const MENUTEMP = {
+                    ...menu,
+                    id: doc.payload.doc.id
+                  }
+
+                  this.menuOperArr.push( MENUTEMP );
+
+                });
+
+              });
+
+  }
+
+  closeMenu(){
+
+    $('#slide-out').sidenav('close');
 
   }
 

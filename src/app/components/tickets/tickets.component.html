@@ -1,0 +1,40 @@
+
+
+
+<div class="containerTickets">
+
+  <div *ngFor="let ticket of ticketsArr"
+        class="card white" >
+    <div class="card-content" style="height: 300px; overflow: auto;">
+      <span class="card-title"><b> Nº Orden: </b> {{ ticket.noOrden }} </span>
+
+      <h2 style="display: inline-block; margin-bottom: 0px;">Meseros: </h2> 
+      <div class="textInfo" style="margin-bottom: 10px;" 
+            *ngFor="let mesero of ticket.meseros"> 
+            {{ mesero.nombre }} 
+      </div>
+
+      <h2 style="display: inline-block; margin-bottom: 0px;">Mesas:</h2>
+      <div class="textInfo" style="margin-bottom: 10px;"
+            *ngFor="let mesa of ticket.mesas"> 
+            {{ mesa.mesa }} 
+      </div>
+
+    </div>
+    <div class="card-action">
+      <a href="#">This is a link</a>
+      <a href="#">This is a link</a>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<div class="fixed-action-btn">
+    <button routerLink="/home/ticket/nuevo"
+        class="btn-floating btn-large red">
+      <i class="large material-icons">add</i>
+    </button>
+  </div>

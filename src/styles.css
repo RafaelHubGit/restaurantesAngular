@@ -47,7 +47,11 @@ table tr td{
   font-size: 18px;
 }
 
+table tbody tr{
 
+  cursor: pointer;
+
+};
 
 
 /* BUSCADOR */
@@ -71,6 +75,7 @@ table tr td{
   grid-template-columns: 90% 10%;
   background-color: rgb(255, 255, 255);
   width: 100%;
+  height: 55px;
 
   border: solid 1px #ccc;
   border-radius: 34px;
@@ -270,6 +275,13 @@ table tr td{
 }
 
 /* FIN MODALES Dialogs*/
+
+
+.noLineInput{
+
+  border: none !important;
+
+}
 
 
 @media only screen and (max-width: 500px) {

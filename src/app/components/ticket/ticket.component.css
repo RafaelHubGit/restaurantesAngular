@@ -1,0 +1,106 @@
+.mainContainer{
+
+    height: 90%;
+
+}
+
+.mainContainer .mat-tab-group {
+
+    height: 100%;
+
+}
+
+.dataTicketContainer{
+
+    padding: 5px;
+
+}
+
+.prodsTicketContainer{
+
+    position: fixed;
+
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+
+}
+
+
+.modalFootContent{
+
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: center;
+    justify-items: center;
+
+}
+
+.modal-content .topModalFoot{
+
+    margin-bottom: 30px;
+    display: grid;
+
+}
+
+.modalFootContent .cantidad{
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
+
+}
+
+.modalFootContent a{
+
+    height: 80px;
+    width: 80px;
+
+    display: grid;
+    align-items: center;
+
+}
+
+
+tbody {
+    display:block;
+    height:150px;
+    overflow:auto;
+    }
+thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+thead {
+    width: calc( 100% - 1em )
+}
+table {
+    width:100%;
+}
+
+.textInput{
+
+    text-align: center;
+    font-size: 50px !important;
+    color: rgb(82, 82, 82);
+
+}
+
+.btnLeft{
+
+    position: fixed;
+    left: 23px;
+    bottom: 23px;
+    margin-bottom: 0;
+    z-index: 997;
+
+}
+
+
+.chip{
+
+    background-color: #26a69a;
+    color: #fff;
+    cursor: pointer;
+}

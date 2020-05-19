@@ -34,7 +34,8 @@
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Precio</th>
-            <th>Categorias</th>
+            <th>Categoria(s)</th>
+            <th>Área(s)</th>
         </tr>
       </thead>
   
@@ -45,7 +46,16 @@
           <td> {{item.nombre }} </td>
           <td> {{ item.descripcion }} </td>
           <td> $ {{ item.precio }} </td>
-          <td> categorias </td>
+          <td>
+            <p *ngFor="let categoria of item.categorias">
+              {{ categoria.categoria }}
+            </p>
+          </td>
+          <td>
+            <p *ngFor="let area of item.areas">
+              {{ area.nombre }}
+            </p>
+          </td>
         </tr>
       </tbody>
     </table>

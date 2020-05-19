@@ -29,6 +29,13 @@ import { MeserosComponent } from './components/meseros/meseros.component';
 import { MeserosDialogComponent } from './dialogs/meseros-dialog/meseros-dialog.component';
 import { MesasDialogsComponent } from './dialogs/mesas-dialogs/mesas-dialogs.component';
 import { MesasComponent } from './components/mesas/mesas.component';
+import { TicketsComponent } from './components/tickets/tickets.component';
+import { AreasComponent } from './components/areas/areas.component';
+import { AreasDialogComponent } from './dialogs/areas-dialog/areas-dialog.component';
+import { CategoriasComponent } from './components/categorias/categorias.component';
+import { CategoriasDialogComponent } from './dialogs/categorias-dialog/categorias-dialog.component';
+import { TicketAreaComponent } from './components/ticket-area/ticket-area.component';
+import { TableTicketAreaComponent } from './shared/table-ticket-area/table-ticket-area.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +53,14 @@ import { MesasComponent } from './components/mesas/mesas.component';
     MeserosComponent,
     MeserosDialogComponent,
     MesasDialogsComponent,
-    MesasComponent
+    MesasComponent,
+    TicketsComponent,
+    AreasComponent,
+    AreasDialogComponent,
+    CategoriasComponent,
+    CategoriasDialogComponent,
+    TicketAreaComponent,
+    TableTicketAreaComponent
   ],
   imports: [
     BrowserModule,

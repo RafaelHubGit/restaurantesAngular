@@ -1,1 +1,249 @@
-<p>ticket works!</p>
+<div class="mainContainer animated fadeInRight faster">
+
+    <mat-tab-group>
+        <mat-tab label="Datos">
+
+            <div class="dataTicketContainer">
+
+                <form [formGroup]="formDatos">
+
+                    <div class="row">
+                        <div    style=" display: none;"
+                                class="input-field col s6">
+                          <input id="noOrden" 
+                                 type="text"
+                                 formControlName = "noOrden"
+                                 [class.is-invalid]= "noOrdenNoValido"
+                                 class="validate"
+                                 >
+                          <label for="noOrden">No Orden</label>
+                        </div>
+                        <div 
+                                class="input-field col s6">
+                          <input id="noComensales" 
+                                    type="text"
+                                    formControlName = "noComensales"
+                                    class="validate">
+                          <label for="noComensales">No Comensales</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div *ngIf=" meserosArr.length !== 0 "
+                                class="input-field col s12">
+                                <div 
+                                        class="input-field col s12">
+                                    <mat-form-field style="width: 100%;">
+                                        <mat-label>Meseros</mat-label>
+                                        <mat-select formControlName = "meseros" multiple>
+                                            <mat-option *ngFor="let mesero of meserosArr" 
+                                                        [value]="mesero.id">{{ mesero.nombre }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                        </div>
+        
+                        <div 
+                                class="input-field col s12">
+                                <div class="input-field col s12">
+                                    <mat-form-field style="width: 100%;">
+                                        <mat-label>Mesas</mat-label>
+                                        <mat-select formControlName = "mesas" multiple>
+                                            <mat-option *ngFor="let mesa of mesasArr" 
+                                                        [value]="mesa.id">{{ mesa.mesa }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="nota" 
+                                    formControlName = "nota"
+                                    class="materialize-textarea"></textarea>
+                          <label for="nota">Nota Adicional</label>
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </mat-tab>
+
+        <!-- AQUI ES LA SEGUNDA PARTE  -->
+        <mat-tab label="Productos"> 
+
+            <div class="prodsTicketContainer animated fadeInRight faster">
+                
+                <div class="tableProds">
+                    
+                    <table class="responsive-table highlight centered">
+                        <thead>
+                          <tr>
+                              <th>Precio</th>
+                              <th>Producto</th>
+                              <th>Nota</th>
+                              <th>Cantidad</th>
+                              <th> Tipo </th>
+                              <th>Total</th>
+                          </tr>
+                        </thead>
+                
+                        <tbody *ngFor="let prod of ticketProductosArr; let i = index; ">
+                          <tr (dblclick)="eliminarProd( prod, i )">
+                            <td> $ {{ prod.precio }} </td>
+                            <td> {{ prod.nombre }} </td>
+                            <td> <input type="text" value="{{ prod.nota }}"> </td>
+                            <td>
+                                <a class="waves-effect waves-circle waves-light btn-floating secondary-content modal-trigger"
+                                    (click)="abreModalFoot( prod, i )">
+                                    {{ prod.cantidad }}
+                                </a> 
+                            </td>
+                            <td>
+                              <div class="chip"
+                                    (click)="abreModalFoot( prod, i )">
+                                {{ prod.tipo }}
+                              </div>
+                            </td>
+                            <td> $ {{ prod.total }} </td>
+                          </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="itemsProds" *ngIf=" itemsMenuArr.length !== 0 ">
+                    
+                    <div class="searchContainer animated fadeIn faster">
+
+                        <div class="searchItemsContainer">
+                          <div class="searchItemInput">
+                            <input (keyup)="onKeyUp($event)" type="text" value="" placeholder="Buscar...">
+                          </div>
+                          <div class="searchItemButton">
+                            <button *ngIf="!textSearch" class="animated fadeIn faster"> <i class="material-icons">search</i> </button>
+                            <button *ngIf="textSearch" (click)=" limpiaText() " class="animated fadeIn faster"> <i class="material-icons">close</i> </button>
+                          </div>    
+                        </div>
+                        <div class="searchTextContainer">
+                          <div *ngIf="textSearch" class="searchText animated fadeIn faster">
+                            Buscando: <b>" {{ textSearch }} "</b>
+                          </div>
+                        </div>
+
+                        <div class="tableContainer"> 
+
+                            <table id="tableMenu" class="responsive-table highlight centered" >
+                                <thead>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Categoría</th>
+                                  </tr>
+                                </thead>
+                        
+                                <tbody>
+                                  <tr *ngFor="let itemMenu of itemsMenuArr"
+                                      (dblclick)="seleccionaArticulo(itemMenu)">
+                                    <td> {{ itemMenu.nombre }} </td>
+                                    <td>
+                                      <p *ngFor="let categoria of itemMenu.categorias">
+                                        {{ categoria.categoria }}
+                                      </p>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        
+                    
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </mat-tab>
+    </mat-tab-group>
+
+</div>
+
+
+<div class="fixed-action-btn">
+    <a (click)="guardar()"
+        class="btn-floating btn-large blue tooltipped"
+        data-position="top" 
+        data-tooltip="Guardar">
+      <i class="large material-icons">save</i>
+    </a>
+</div>
+
+
+<a routerLink="/home/tickets"
+    class="btn-floating btn-large grey darken-2 btnLeft tooltipped"
+    data-position="right" 
+    data-tooltip="Regresar">
+    <i class="large material-icons">keyboard_backspace</i>
+</a>
+
+
+
+ <!-- Modal Structure -->
+ <div id="modal1" class="modal bottom-sheet">
+    <div class="modal-content">
+      <!-- <h4 class="header"> Digite la cantidad </h4> -->
+
+      <div class="topModalFoot">
+        <a class="modal-close waves-effect waves-light btn"
+            (click)="cambiaCantidadTipo()"> 
+            Aceptar
+        </a>
+      </div>
+      
+      <div class=" modalFootContent ">
+
+        <div class="cantidad">
+          <a class="waves-effect waves-circle waves-light btn-floating secondary-content"
+              (click)=" cantMenos() ">
+              <i class="material-icons">remove</i>
+          </a>
+
+          <input class="noLineInput textInput" 
+                  type="text" [value]="cantidadM" 
+                  onclick="this.select();" 
+                  (keyup)="cambiaTextInput( $event )">
+
+          <a class="waves-effect waves-circle waves-light btn-floating secondary-content"
+              (click)=" cantMas() ">
+              <i class="material-icons">add</i>
+          </a>
+        </div>
+
+        <div class="tipo">
+
+          <mat-form-field *ngIf=" dataTipo.lenght != 0 ">
+            <mat-label>Select an option</mat-label>
+            <mat-select  value="entraSale"
+                        (selectionChange)="changeTipo( $event.value )">
+              <mat-option *ngFor="let tipo of dataTipo" 
+                          [value]=' tipo.value '>
+                          {{ tipo.option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="modal-footer">
+     <!--  <a (click)="cambiaCantidadTipo()"
+            class="modal-close waves-effect waves-green btn-flat"> Aceptar </a> -->
+    </div>
+  </div>

@@ -7,6 +7,7 @@ export class ItemMenuModel{
     nombre: string;
     descripcion: string;
     precio: number;
-    categorias: [];
+    categorias: any;
+    areas: any;
 
 }

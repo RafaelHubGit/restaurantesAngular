@@ -1,0 +1,34 @@
+
+.headContainer{
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 25px;
+
+}
+
+.headtitle{
+
+    font-size: 35px;
+    color: #656464;
+}
+
+.headMiddle{
+
+    display: grid;
+
+}
+
+/* Sube el select  */
+mat-form-field{
+
+    top: -10px !important;
+
+}
+
+.middleContainer{
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+}

@@ -1,27 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-
-import { MenuService } from '../../services/menu.service';
-
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { ItemMenuComponent } from '../../dialogs/item-menu/item-menu.component';
-import { ItemMenuModel } from '../../models/itemMenu.model';
-import Swal from 'sweetalert2';
-import { GettersService } from '../../services/getters.service';
 
+import { AreaService } from '../../services/area.service';
+import { HerramientasService } from '../../services/herramientas.service';
+
+import { AreaModel } from '../../models/area.model';
+import { AreasDialogComponent } from '../../dialogs/areas-dialog/areas-dialog.component';
+
+import Swal from 'sweetalert2';
 declare var $:any;
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  selector: 'app-areas',
+  templateUrl: './areas.component.html',
+  styleUrls: ['./areas.component.css']
 })
-export class MenuComponent implements OnInit {
+export class AreasComponent implements OnInit {
 
-  itemsMenu: ItemMenuModel[] = [];
-  linkPrimario = 'http://primario.com.mx';
+  areasArr: AreaModel[] = [];
   textSearch: string;
   hayInfo =  false;
-  infoCargada = false;
 
   Toast = Swal.mixin({
     toast: true,
@@ -31,63 +29,49 @@ export class MenuComponent implements OnInit {
     timerProgressBar: true
   });
 
-  constructor( private dialog: MatDialog,
-               private sM: MenuService,
-               private getS: GettersService) {
-
-               }
+  constructor(private dialog: MatDialog,
+              private sA: AreaService,
+              private tls: HerramientasService) { }
 
   ngOnInit(): void {
-
     this.cargaInformacion();
-
   }
+
 
   cargaInformacion(){
 
-    this.getMenu();
+    this.sA.getAreas().subscribe( resp => {
 
-  }
+      const areas= [];
 
-  getMenu(){
-
-    this.sM.getMenu().subscribe( resp => {
-
-      const items: ItemMenuModel[] = [];
-
-      if ( items.length !== 0 ){
+      if ( areas.length !== 0 ){
         this.hayInfo = true;
         return;
       }
 
-      resp.forEach( async doc => {
+      resp.forEach( doc => {
 
-      const item: ItemMenuModel = {
-        idMenu: doc.id,
-        idRestaurante: doc.data().idRestaurante,
-        nombre: doc.data().nombre,
-        descripcion: doc.data().descripcion,
-        precio: doc.data().precio,
-        categorias: doc.data().categorias,
-        areas: doc.data().areas
-      };
+        const item = {
+          id: doc.id,
+          idRestaurante: doc.data().idRestaurante,
+          ...doc.data()
+        };
 
-      items.push( item );
+        areas.push( item );
 
       });
 
-      this.itemsMenu = items;
+      this.areasArr = areas;
 
     });
-
 
   }
 
   addItem( tipo ){
 
-    let nuevoItem  = new ItemMenuModel();
+    let nuevoItem  = new AreaModel();
 
-    const dialogRef = this.dialog.open(ItemMenuComponent, {
+    const dialogRef = this.dialog.open(AreasDialogComponent, {
       width: '90%',
       data: {item: nuevoItem, tipo: tipo}
     });
@@ -105,30 +89,35 @@ export class MenuComponent implements OnInit {
       });
       Swal.showLoading();
 
-      this.sM.addItemMenu( data )
+      this.sA.addArea( data )
              .then( resp => {
 
-              Swal.close();
-              
-              this.Toast.fire({
-                icon: 'success',
-                title: 'Agregado correctamente!'
-              });
+              this.sA.addMenu( data, resp.id)
+                  .then( resp => {
+
+                    Swal.close();
+
+                    this.Toast.fire({
+                      icon: 'success',
+                      title: 'Agregado correctamente!'
+                    });
+
+                  });
 
               nuevoItem = data;
-              nuevoItem.idMenu = resp.id;
-              
-              this.itemsMenu.push( nuevoItem );
+              nuevoItem.id = resp.id;
+
+              this.areasArr.push( nuevoItem );
 
              }, err => {
 
-              console.log("ERROR : ", err);
+              console.log('ERROR : ', err);
 
               Swal.fire({
                 icon: 'error',
-                title: 'Error Men-01',
+                title: 'Error Mess-01',
                 text: 'Error al insertar, intentelo de nuevo, si el problema persiste contacte al equipo de Primario!',
-                footer: `<a href="${ this.linkPrimario }"> Equipo Primario : ${this.linkPrimario} </a>`
+                footer: `<a href="${ this.tls.linkPrimario }"> Equipo Primario : ${this.tls.linkPrimario} </a>`
               });
 
              });
@@ -136,34 +125,35 @@ export class MenuComponent implements OnInit {
     })
   }
 
-  updateItem( item: ItemMenuModel, tipo: string, posicion: number ){
+  updateItem( item: AreaModel, tipo: string, posicion: number ){
 
-    const dialogRef = this.dialog.open(ItemMenuComponent, {
+    const dialogRef = this.dialog.open(AreasDialogComponent, {
       width: '90%',
       data: {item: item, tipo: tipo}
     });
 
     dialogRef.afterClosed().subscribe( data => {
 
-      if ( data === undefined ){
+      if ( !data ){
         return;
       }
 
-      this.sM.updateItemMenu( data )
+      this.sA.updateArea( data )
               .then( resp => {
 
-                this.itemsMenu.splice( posicion, 1, data);
+                this.areasArr.splice( posicion, 1, data);
 
                 this.Toast.fire({
                   icon: 'success',
                   title: 'Editado correctamente!'
                 });
 
+                
               }, err => {
-
+                
                 Swal.fire({
                   icon: 'error',
-                  title: 'Error Men-02 ',
+                  title: 'Error Mess-02 ',
                   text: 'Error al editar!',
                   footer: '<a href>Why do I have this issue?</a>'
                 });
@@ -174,11 +164,11 @@ export class MenuComponent implements OnInit {
 
   }
 
-  deleteItem( item: ItemMenuModel, posicion: number){
+  deleteItem( item: AreaModel, posicion: number){
 
-    this.sM.deleteItemMenu( item )
+    this.sA.deleteAreas( item )
             .then( resp => {
-              this.itemsMenu.splice( posicion, 1);
+              this.areasArr.splice( posicion, 1);
 
               this.Toast.fire({
                 icon: 'success',
@@ -198,7 +188,7 @@ export class MenuComponent implements OnInit {
 
   }
 
-  queHacer( item: ItemMenuModel, tipo: string, posicion: number ){
+  queHacer( item: AreaModel, tipo: string, posicion: number ){
 
     Swal.fire({
       title: 'Qué acción desea realizar?',
@@ -212,11 +202,11 @@ export class MenuComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-
+        
         this.updateItem( item, tipo, posicion );
         
       } else if (
-        /* Read more about handling dismissals below */
+        /* Read more about handling disAissals below */
         result.dismiss === Swal.DismissReason.cancel
       ) {
         
@@ -244,7 +234,7 @@ export class MenuComponent implements OnInit {
 
     let busqueda = event.target.value.toLowerCase();
 
-    $("#tableMenu tbody tr").filter(function() {
+    $('#tableMain tbody tr').filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(busqueda) > -1);
     });
 
@@ -253,5 +243,6 @@ export class MenuComponent implements OnInit {
   limpiaText(){
     this.textSearch = '';
   }
+
 
 }
