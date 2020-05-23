@@ -79,5 +79,20 @@ export class HerramientasService {
     return arrTemp;
   }
 
+  generaId( fecha: Date){
+
+    const anio = fecha.getFullYear();
+    const mes = fecha.getMonth();
+    const dia = fecha.getDay();
+    const hora = fecha.getHours();
+    const minuto = fecha.getMinutes();
+    const segundo = fecha.getSeconds();
+    const miliSeconds = fecha.getMilliseconds();
+
+    const id = `${anio}${mes}${dia}${hora}${minuto}${segundo}${miliSeconds}`;
+
+    return id;
+
+  }
 
 }

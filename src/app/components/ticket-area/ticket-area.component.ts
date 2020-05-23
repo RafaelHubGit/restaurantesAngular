@@ -75,7 +75,7 @@ export class TicketAreaComponent implements OnInit {
 
 
     const tipoArr = array.filter( item => item.tipo === tipo );
-    return tipoArr;
+    return tipoArr.sort().reverse();
 
   }
 
@@ -113,11 +113,14 @@ export class TicketAreaComponent implements OnInit {
 
     if ( this.entraSaleArr.length !== 0 ) {
       this.opcionesValue.push('entraSale');
-    } else if ( this.tiempo1Arr.length !== 0 ){
+    }
+    if ( this.tiempo1Arr.length !== 0 ){
       this.opcionesValue.push('tiempo1');
-    } else if ( this.tiempo2Arr.length !== 0 ){
+    }
+    if ( this.tiempo2Arr.length !== 0 ){
       this.opcionesValue.push('tiempo2');
-    } else if ( this.postreArr.length !== 0 ){
+    }
+    if ( this.postreArr.length !== 0 ){
       this.opcionesValue.push('postre');
     }
 

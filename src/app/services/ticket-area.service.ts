@@ -20,8 +20,6 @@ export class TicketAreaService {
 
   getProdArea( idArea: string ){
 
-    console.log('ID AREA  : ' , idArea);
-
     const query = this.firestore.collection('restaurantes').doc(`${this.idRestaurante}`)
                       .collection('prodsToArea')
                       .ref

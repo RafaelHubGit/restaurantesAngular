@@ -95,6 +95,20 @@ export class TicketService {
                 .add( ticket );
   }
 
+  updateTicket( item: TicketDatosModel ){
+
+    const ticket = {
+      ...item,
+      idRestaurante : this.idRestaurante
+    };
+
+    return this.firestore.collection('restaurantes').doc(`${this.idRestaurante}`)
+                          .collection('ticket')
+                          .doc( item.id )
+                          .update( ticket );
+
+  }
+
   addTicketProds( item: TicketProductoDetalleModel ){
 
     const ticketProd = {
@@ -108,6 +122,20 @@ export class TicketService {
                 .add( ticketProd );
   }
 
+  updateTicketProds( item: TicketProductoDetalleModel ){
+
+    const ticketProd = {
+      ...item
+    };
+
+    return this.firestore.collection('restaurantes').doc(`${this.idRestaurante}`)
+                .collection('ticket')
+                .doc( item.idTicket )
+                .collection('ticketProds')
+                .doc( item.id )
+                .update( ticketProd );
+  }
+
   /* Agrega los productos a una coleccion al mismo nivel que el ticket, para que se envie a las areas */
   addProdsToArea( item: ProdToAreaModel ){
 
@@ -117,7 +145,48 @@ export class TicketService {
 
     return this.firestore.collection('restaurantes').doc(`${this.idRestaurante}`)
                 .collection('prodsToArea')
-                .add( prod );
+                .doc( `${item.id}` )
+                .set( prod );
+  }
+
+  updateProdsToArea( item: ProdToAreaModel ){
+
+    const prod = {
+      ...item
+    };
+
+    return this.firestore.collection('restaurantes').doc(`${this.idRestaurante}`)
+                .collection('prodsToArea')
+                .doc( item.id )
+                .update( prod );
+  }
+
+  deleteProdsToArea( item: ProdToAreaModel ){
+
+    return this.firestore.collection('restaurantes').doc(`${this.idRestaurante}`)
+                .collection('prodsToArea')
+                .doc( item.id )
+                .delete();
+
+  }
+
+  getDataTicketById( idTicket: string ){
+
+    return this.firestore.collection('restaurantes').doc(`${this.idRestaurante}`)
+                      .collection('ticket')
+                      .doc( idTicket )
+                      .get();
+
+  }
+
+  getProductTicketById( idTicket: string ){
+
+    return this.firestore.collection('restaurantes').doc(`${this.idRestaurante}`)
+                      .collection('ticket')
+                      .doc( idTicket )
+                      .collection('ticketProds')
+                      .get();
+
   }
 
 }

@@ -2,6 +2,7 @@
 
 export class TicketDatosModel{
 
+    id: string;
     idRestaurante: string;
     noOrden: number;
     meseros: any;

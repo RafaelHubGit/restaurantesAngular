@@ -1,10 +1,8 @@
 
-
+/* este modelo es el detalle de cada producto elegido */
 export class TicketProductoModel{
 
     id: string;
-    /* idRestaurante: string; */
-    /* idTicket: string; */
     idMenu: string;
     nombre: string;
     precio: number;
@@ -16,15 +14,10 @@ export class TicketProductoModel{
     areas: [];
     total: number;
     status: string;
-    /* fecha: Date;
-    anio: number;
-    mes: number;
-    dia: number;
-    hora: number;
-    minuto: number; */
 
 }
 
+/* Este modelo solo es usado en el detalle general del ticket  */
 export class TicketProductoDetalleModel{
 
     id: string;
@@ -41,6 +34,7 @@ export class TicketProductoDetalleModel{
 }
 
 
+/* Este modelo es el que se agrega como un documento a nivel de todos los demas para que sea mandado a la respectiva area */
 export class ProdToAreaModel {
 
     id: string;

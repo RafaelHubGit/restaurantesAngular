@@ -6,6 +6,7 @@ import { TicketDatosModel } from '../../models/ticketDatos.model';
 import { TicketService } from '../../services/ticket.service';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tickets',
@@ -16,7 +17,8 @@ export class TicketsComponent implements OnInit {
 
   ticketsArr: TicketDatosModel[] = [];
 
-  constructor( private sT: TicketService ) { }
+  constructor( private sT: TicketService,
+               private router: Router ) { }
 
   ngOnInit(): void {
 
@@ -45,8 +47,11 @@ export class TicketsComponent implements OnInit {
             });
 
           });
+  }
 
-          
+  editaTicket( ticket: TicketDatosModel ){
+
+    this.router.navigate([`/home/ticket/${ ticket.id }`]);
 
   }
 

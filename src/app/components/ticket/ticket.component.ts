@@ -32,9 +32,11 @@ export class TicketComponent implements OnInit {
 
   ticketDatos: TicketDatosModel;
   ticketProductosArr: TicketProductoModel[] = [];
+  ticketProductosArrTemp: TicketProductoModel[] = [];
   ticketProdsDetalle: TicketProductoDetalleModel;
   idProductosArr = [];
-  ticketTipoPagoArr: TicketTipoPagoModel[] = [];
+
+  /* arrays para los select */
   itemsMenuArr: ItemMenuModel[] = [];
   meserosArr: ItemMeseroModel[] = [];
   mesasArr: MesaModel[] = [];
@@ -67,6 +69,7 @@ export class TicketComponent implements OnInit {
 
                 this.idRoute = this.route.snapshot.paramMap.get('id');
                 this.idRestaurante = tls.getIdRestaurante();
+
                 this.dataTipo = getS.dataTipo.tipo;
                 this.ticketDatos = new TicketDatosModel();
                 this.ticketProdsDetalle = new TicketProductoDetalleModel();
@@ -102,7 +105,29 @@ export class TicketComponent implements OnInit {
 
   }
 
+  cargaDataAlFormulario( dataForm: TicketDatosModel ){
+
+    this.formDatos.reset({
+
+      noOrden: dataForm.noOrden,
+      noComensales: dataForm.noComensales,
+      meseros: this.tls.getIdFromArr( dataForm.meseros ),
+      mesas: this.tls.getIdFromArr( dataForm.mesas ),
+      nota: dataForm.nota
+
+    });
+
+  }
+
   cargaInformacion(){
+
+    /* cargar informacion si llega un id */
+
+    if ( this.idRoute !== 'nuevo' ){
+      this.getDataTicketById( this.idRoute );
+      this.getProductTicketById( this.idRoute );
+
+    }
 
     this.getProdsMenu();
     this.getMeseros();
@@ -126,6 +151,59 @@ export class TicketComponent implements OnInit {
   getMesas(){
 
     this.mesasArr = this.getS.mesasArrGet;
+
+  }
+
+  /* carga la informacion cuando entra en editar 
+  carga la informacion del primer formulario */
+  getDataTicketById( idTicket: string ){
+
+    let TICKETTEMP: any;
+
+    this.sT.getDataTicketById( idTicket )
+            .subscribe( resp => {
+
+              TICKETTEMP = {
+                ...resp.data(),
+                id: resp.id
+              };
+
+              this.ticketDatos = TICKETTEMP;
+
+              /* carga los datos al formulario en cuanto trae la informacion  */
+              this.cargaDataAlFormulario( TICKETTEMP );
+              this.idProductosArr = TICKETTEMP.productos;
+
+            });
+  }
+
+  /* es acompañado de la funcion getDataTicketById, pero este carga los productos seleccionados */
+  getProductTicketById( idTicket: string ){
+
+    this.sT.getProductTicketById( idTicket )
+            .subscribe( resp => {
+
+              let ticketProdArrTemp: any;
+              let ticketProdDetalle: any;
+
+              if ( resp.empty ){
+                return;
+              }
+
+              resp.forEach( doc => {
+
+                ticketProdDetalle = {
+                  ...doc.data(),
+                  id: doc.id
+                }
+                ticketProdArrTemp = doc.data().productos;
+
+                this.ticketProdsDetalle = ticketProdDetalle;
+                this.ticketProductosArr = ticketProdArrTemp;
+
+              });
+
+            });
 
   }
 
@@ -167,6 +245,10 @@ export class TicketComponent implements OnInit {
 
     if ( this.idRoute === 'nuevo' ){
       this.addTicket();
+    } else {
+ 
+      this.updateTicket();
+
     }
 
 
@@ -213,10 +295,30 @@ export class TicketComponent implements OnInit {
           text: 'Error al insertar, intentelo de nuevo, si el problema persiste contacte al equipo de Primario!',
           footer: `<a href="${ this.linkPrimario }"> Equipo Primario : ${this.linkPrimario} </a>`
         });
-  
+
       });
 
     });
+
+  }
+
+  updateTicket() {
+
+    console.log('update 1 : ', this.ticketDatos);
+
+    this.sT.updateTicket( this.ticketDatos )
+        .then( resp => {
+
+          this.updateTicketProdDetalle();
+
+        }, err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error Tkt-01',
+            text: 'Error al insertar, intentelo de nuevo, si el problema persiste contacte al equipo de Primario!',
+            footer: `<a href="${ this.linkPrimario }"> Equipo Primario : ${this.linkPrimario} </a>`
+          });
+        });
 
   }
 
@@ -253,8 +355,60 @@ export class TicketComponent implements OnInit {
 
   }
 
+  updateTicketProdDetalle(){
+
+    this.ticketProdsDetalle.productos = this.ticketProductosArr;
+
+    this.sT.updateTicketProds( this.ticketProdsDetalle ).then( resp => {
+
+      /* this.addproToArea( idTicket ); */
+
+      Swal.close();
+  
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: `Modificado correctamente`,
+        showConfirmButton: false,
+        timer: 2000
+      });
+
+      this.router.navigate(['/home/tickets']);
+
+    });
+
+  }
+
   /* crea y agrega los prouctos a la coleccion ProdToAreaModel */
   addproToArea( idTicket: string ){
+
+    const fecha = new Date();
+    this.ticketProductosArr.forEach( item => {
+
+      let prods: ProdToAreaModel = {
+        ...item,
+        id: this.tls.generaId( fecha ),
+        categorias: this.tls.getIdFromArr( item.categorias ),
+        areas: this.tls.getIdFromArr( item.areas ),
+        idRestaurante: this.idRestaurante,
+        idTicket,
+        fecha,
+        anio: this.tls.getYear( fecha ),
+        mes: this.tls.getMonth( fecha ),
+        dia: this.tls.getDay( fecha ),
+        hora: this.tls.getHours( fecha ),
+        minuto: this.tls.getMinutes( fecha )
+      };
+
+      this.sT.addProdsToArea( prods )
+            .then( resp => {
+              
+            });
+    });
+
+  }
+
+  updateProToArea( idTicket: string ){
 
     const fecha = new Date();
     this.ticketProductosArr.forEach( item => {
@@ -372,8 +526,8 @@ export class TicketComponent implements OnInit {
     $('#modal1').modal('open');
 
     /* Estas dos luneas son necesarias ya que sin ellas el modal se sobrepone al Select de AngularMaterial */
-    $(".modal-overlay")[0].style.zIndex="999";
-    $(".modal")[0].style.zIndex="1000";
+    $('.modal-overlay')[0].style.zIndex = '999';
+    $('.modal')[0].style.zIndex = ' 1000';
 
     this.cantidadM = item.cantidad;
     this.tipoM = item.tipo;
